@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qx.mapper.UserMapper">
+	<select id="findAll" resultType="com.qx.pojo.User">
+		select * from user
+	</select>
+	
+	<insert id="AddUser" parameterType="com.qx.pojo.User">
+ 		<selectKey keyProperty="id" resultType="integer" order="AFTER">
+ 			SELECT LAST_INSERT_ID()
+ 		</selectKey>	
+		insert into user(username,age,sex,salary,department)
+		values (#{username},#{age},#{sex},#{salary},#{department})
+	</insert>
+	
+	
+	<!-- 我直接在mapper接口中使用了mybatis的参数注解@Param, 在这里就不用在指明参数类型了-->
+	<!-- 即使你想指明也无法直接指明,因为参数类型只接收一个参数,无法接收多个,@Param就是解决这个问题的 -->
+	<select id="updateUserById">
+		update user set username=#{username},age=#{age},sex=#{sex} where id=#{id}
+	</select>
+	
+</mapper>
